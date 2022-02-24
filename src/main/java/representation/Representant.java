@@ -1,4 +1,8 @@
 package representation;
+import java.util.HashMap;
+import java.util.Map;
+import java.lang.Float;
+import java.lang.Integer;
 
 public class Representant {
 
@@ -8,12 +12,16 @@ public class Representant {
 	private String adresse;
 	private float salaireFixe;
 	private ZoneGeographique secteur;
+	Map<Integer,Float> ListeCAMensuel = new HashMap<Integer,Float>();
 
 	public Representant(int numero, String nom, String prenom, ZoneGeographique secteur) {
 		this.numero = numero;
 		this.nom = nom;
 		this.prenom = prenom;
 		this.secteur = secteur;
+		for(int i = 0; i < 12; i++){
+			ListeCAMensuel.put(i,(float) 0);
+		}
 	}
 
 	public int getNumero() {
@@ -49,8 +57,7 @@ public class Representant {
 	}
 
 	public void setSecteur(ZoneGeographique secteur) {
-		// TODO: Implémenter cette méthode
-		throw new UnsupportedOperationException("Pas encore implémenté");
+		this.secteur = secteur;
 	}
 
 	/**
@@ -66,8 +73,7 @@ public class Representant {
 		if (montant < 0) {
 			throw new IllegalArgumentException("Le montant doit être positif ou null");
 		}
-		// TODO: Implémenter cette méthode
-		throw new UnsupportedOperationException("Pas encore implémenté");
+		this.ListeCAMensuel.put(mois,montant);
 	}
 
 	/**
@@ -77,8 +83,14 @@ public class Representant {
 	 * @return le salaire pour ce mois, tenant compte du salaire fixe, de l'indemnité repas, et du pourcentage sur CA
 	 */
 	public float salaireMensuel(int mois, float pourcentage) {
-		// TODO: Implémenter cette méthode
-		throw new UnsupportedOperationException("Pas encore implémenté");
+		if (mois < 0 || mois > 11) {
+			throw new IllegalArgumentException("Le mois doit être compris entre 0 et 11");
+		}
+		if (pourcentage < 0) {
+			throw new IllegalArgumentException("Le pourcentage doit être positif ou null");
+		}
+		float CA = this.ListeCAMensuel.get(mois);
+		return this.salaireFixe+this.secteur.getIndemniteRepas()+(CA*pourcentage);
 	}
 
 	@Override

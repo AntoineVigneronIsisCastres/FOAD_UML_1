@@ -82,6 +82,20 @@ public class TestRepresentant {
 		}
 
 	}
+
+	@Test
+	public void testCANormal() {
+		float POURCENTAGE= 0.1f; // 10% de pourcentage sur CA
+		r.enregistrerCA(0, 10000f);
+		
+		// On calcule son salaire pour le mois 0 avec 10% de part sur CA
+		float salaire = r.salaireMensuel(0, POURCENTAGE);
+		
+		assertEquals(
+			FIXE_BASTIDE + INDEMNITE_OCCITANIE + r.ListeCAMensuel.get(0)*POURCENTAGE, 
+			salaire
+		);
+	}
 	
 	
 }
